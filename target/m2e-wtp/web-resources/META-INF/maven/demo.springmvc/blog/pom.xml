@@ -139,6 +139,8 @@
 		</dependency>        
 	</dependencies>
     <build>
+        <finalName>springblog</finalName>
+        
         <plugins>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
