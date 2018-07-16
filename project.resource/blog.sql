@@ -10,6 +10,16 @@ create table comment ( id integer auto_increment primary key , content text not 
 drop table if exists test;
 create table test ( id integer auto_increment primary key, one text collate utf8_general_ci not null , two text not null ) default charset=utf8 collate=utf8_general_ci;
 
+drop table if exists tasklog;
+create table tasklog (
+actiontype varchar(20) not null,
+prjCode varchar(20) not null,
+processID varchar(20) not null,
+processInstanceID varchar(20) not null,
+taskID varchar(20) not null,
+creationDate Datetime not null 
+) default charset=utf8 collate=utf8_general_ci;
+
 alter table user convert to character set utf8 collate utf8_general_ci ;
 alter table post convert to character set utf8 collate utf8_general_ci ;
 alter table comment convert to character set utf8 collate utf8_general_ci ;
