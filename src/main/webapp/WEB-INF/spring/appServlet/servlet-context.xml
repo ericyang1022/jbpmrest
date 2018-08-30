@@ -9,6 +9,7 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
+	<context:component-scan base-package="demo.springmvc.blog" />
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 
@@ -22,8 +23,6 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
-	<context:component-scan base-package="demo.springmvc.blog" />
 		
 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
 	    <beans:property name="driverClassName" value="${jdbc.driverClassName}" />
