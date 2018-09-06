@@ -9,7 +9,7 @@
 
 	<!-- DispatcherServlet Context: defines this servlet's request-processing infrastructure -->
 	
-	<context:component-scan base-package="demo.springmvc.blog" />
+	<context:component-scan base-package="jbpm.rest" />
 	<!-- Enables the Spring MVC @Controller programming model -->
 	<annotation-driven />
 

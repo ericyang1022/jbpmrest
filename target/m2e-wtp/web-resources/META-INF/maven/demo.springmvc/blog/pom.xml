@@ -8,13 +8,55 @@
 	<packaging>war</packaging>
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
-	    <java-version>1.6</java-version>
+	    <java-version>1.7</java-version>
 		<!--<org.springframework-version>3.1.1.RELEASE</org.springframework-version>-->
 		<org.springframework-version>4.2.4.RELEASE</org.springframework-version> 
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		
+		<jbpm.version>6.5.0.Final</jbpm.version>
 	</properties>
+	<!-- jbpm bom -->
+	 <dependencyManagement>
+	  <dependencies>
+			<dependency>
+				<groupId>org.jboss.bom.eap</groupId>
+				<artifactId>jboss-javaee-6.0-with-tools</artifactId>
+				<version>6.4.0.GA</version>
+				<type>pom</type>
+				<scope>import</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.jbpm</groupId>
+				<artifactId>jbpm-bom</artifactId>
+				<version>${jbpm.version}</version>
+				<scope>import</scope>
+				<type>pom</type>
+			</dependency>
+			<!-- <dependency>
+				<groupId>org.jboss.integration-platform</groupId>
+				<artifactId>jboss-integration-platform-bom</artifactId>
+				<type>pom</type>
+				<version>6.0.0.CR26-redhat-2</version>
+				<scope>import</scope>
+			</dependency>  -->
+	  </dependencies>
+	 </dependencyManagement>
 	<dependencies>
+		<!-- JBPM related API -->
+	    <dependency>
+	        <groupId>org.kie.server</groupId>
+	        <artifactId>kie-server-client</artifactId>
+	    </dependency>
+		
+		<dependency>
+		    <groupId>npou</groupId>
+		    <artifactId>npproj42</artifactId>
+		    <version>1.0</version>
+		    <scope>system</scope>
+		    <systemPath>${project.basedir}/src/main/resources/npproj42-1.0.jar</systemPath>
+		</dependency>
+	
 		<!-- Spring -->
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -63,8 +105,6 @@
             <artifactId>spring-test</artifactId>
             <version>${org.springframework-version}</version>
         </dependency>
-        
-        
 		
 		<!-- MySQL -->
 		<dependency>
@@ -119,6 +159,7 @@
 		</dependency>	
 		
 		<!-- Logging -->
+		<!-- 
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -135,7 +176,7 @@
 			<artifactId>slf4j-log4j12</artifactId>
 			<version>${org.slf4j-version}</version>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency>  -->
 		<dependency>
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
@@ -165,35 +206,83 @@
 		<dependency>
 			<groupId>javax.inject</groupId>
 			<artifactId>javax.inject</artifactId>
-			<version>1</version>
 		</dependency>
 				
-		<!-- Servlet -->
-		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>servlet-api</artifactId>
-			<version>2.5</version>
-			<scope>provided</scope>
-		</dependency>
+        <!-- Servlet -->
+        <dependency>
+            <groupId>javax.servlet</groupId>
+            <artifactId>javax.servlet-api</artifactId>
+            <version>3.0.1</version>
+            <scope>provided</scope>
+        </dependency>
+        <!-- 
 		<dependency>
 			<groupId>javax.servlet.jsp</groupId>
-			<artifactId>jsp-api</artifactId>
-			<version>2.1</version>
+			<artifactId>javax.servlet.jsp-api</artifactId>
+			<version>2.3.0</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
+		</dependency>  -->
+		
+		<!-- resteasy client -->
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxrs</artifactId>
+			<version>2.3.10.Final</version>
 		</dependency>
+		<dependency>
+			<groupId>org.jboss.resteasy</groupId>
+			<artifactId>resteasy-jaxb-provider</artifactId>
+			<version>2.3.10.Final</version>
+		</dependency>
+	    <dependency>
+	      <groupId>javax.ws.rs</groupId>
+	      <artifactId>javax.ws.rs-api</artifactId>
+	      <version>2.0</version>
+	    </dependency>
 	
 		<!-- Test -->
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.7</version>
-			<scope>test</scope>
-		</dependency>        
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>4.11</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.hamcrest</groupId>
+            <artifactId>hamcrest-all</artifactId>
+            <version>1.3</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>1.9.5</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <artifactId>hamcrest-core</artifactId>
+                    <groupId>org.hamcrest</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.jayway.jsonpath</groupId>
+            <artifactId>json-path</artifactId>
+            <version>0.9.0</version>
+            <scope>test</scope>
+        </dependency>
 	</dependencies>
     <build>
         <finalName>springmvc</finalName>
@@ -235,4 +324,34 @@
             </plugin>
         </plugins>
     </build>
+    
+ <repositories>
+  <repository>
+   <id>jboss-public-repository-group</id>
+   <name>JBoss Public Repository Group</name>
+   <url>http://repository.jboss.org/nexus/content/groups/public/</url>
+   <layout>default</layout>
+   <releases>
+    <enabled>true</enabled>
+    <updatePolicy>never</updatePolicy>
+   </releases>
+   <snapshots>
+    <enabled>true</enabled>
+    <updatePolicy>daily</updatePolicy>
+   </snapshots>
+  </repository>
+
+  <repository>
+   <id>rh-all</id>
+   <url>http://maven.repository.redhat.com/ga</url>
+   <layout>default</layout>
+   <releases>
+    <enabled>true</enabled>
+    <updatePolicy>never</updatePolicy>
+   </releases>
+   <snapshots>
+    <enabled>false</enabled>
+   </snapshots>
+  </repository>
+ </repositories>
 </project>
