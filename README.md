@@ -1,12 +1,9 @@
-springmvc-mysql-blog
+jbpm rest
 ====================
 
-This is a sample blog project which uses Spring MVC 3 framework and MySQL for persistance. 
+This is a sample testing project which uses Spring MVC 4 framework to create REST controller to connect business central and kie server by rest api. 
 
-First Create a MySQL database named "Blog" and run the project.properties/blog.sql script. That should set up the database.
+mock test case created for testing purpose without starting up a server
 
-On resource/jdbc.properties file, write up the jdbc.username and jdbc.password. That should be username and password for your MySQL database.
 
-That project was written using STS Spring MVC Template project. That project is build with Maven 3. So importing project in STS/Eclipse should be easy.
-
-Contact rejwan.shuvo@gmail.com if you have any queries. Thanks.
+ 
