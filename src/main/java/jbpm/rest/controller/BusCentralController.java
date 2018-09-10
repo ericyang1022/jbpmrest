@@ -12,6 +12,7 @@ import org.jboss.resteasy.client.ClientRequestFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -19,29 +20,31 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @Controller
-@RequestMapping("/jbpm")
+@RequestMapping("/rest")
 public class BusCentralController {
 	private static final String APP_URL = "http://192.168.56.101:8080/business-central/rest";
 	private static final String USER = "eric";
 	private static final String PASSWORD = "p@ssword123";
 	
     @RequestMapping(
-    		value="/process/startform", 
+    		value="/{deploymentUnitID}/process/{processID}/startform", 
     		method = RequestMethod.GET
     		, produces = MediaType.APPLICATION_JSON_VALUE
     		)
 	@ResponseStatus(HttpStatus.OK)
 	@ResponseBody
 	public ProcessInstanceFormResponse getProcessFormUrl (
-			@RequestParam( value="userName", required = true) String userName
+			@RequestParam( value="userName", required = true) String userName, 
+			@PathVariable String deploymentUnitID, 
+			@PathVariable String processID
 			) {
-		String containerID = "npou:npproj42:1.0";
-		String processID = "npproj42.SaveTimesheet";
+//		String deploymentUnitID = "npou:npproj42:1.0";
+//		String processID = "npproj42.SaveTimesheet";
 
 		String url = APP_URL + "/runtime/npou:npproj42:1.0/process/" + processID + "/startform";
 		System.out.println("url: " + url + ", userName:" + userName);
 		
-		System.out.println("== Getting process form URL:" + containerID + " ==");
+		System.out.println("== Getting process form URL:" + deploymentUnitID + " ==");
 		ProcessInstanceFormResponse response = new ProcessInstanceFormResponse();
 		try {
 			response = createRequest(url).get(

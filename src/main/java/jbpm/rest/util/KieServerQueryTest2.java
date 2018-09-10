@@ -21,9 +21,9 @@ public class KieServerQueryTest2 {
 	public static void main(String[] args) {
 //		abortProcess();
 //		registerCustomQuery1();
-//		registerCustomQuery();
+		registerCustomQuery();
 //		startProcess();
-		registerQuery();
+//		registerQuery();
 //		registerQuery1();
 //		displayQueryDef();
 	}
@@ -76,18 +76,23 @@ public class KieServerQueryTest2 {
 	}
 	
 	public static void registerCustomQuery() {
-		String QUERY_NAME = "getMyUserTaskInstanceWithVars";
+		String QUERY_NAME = "getMyTimesheetTaskInstanceWithVars";
 		// building the query
 		QueryDefinition queryDefinition = QueryDefinition.builder().name(QUERY_NAME)
-			.expression("select ti.*, t.id as t_id, t.employee_no, t.employee_name, t.charge_item_name\r\n" + 
-					"from AuditTaskImpl ti inner join timesheet t \r\n" + 
-					"on (ti.taskId = t.id)")
+			.expression("select ti.*, ts.id as t_id, ts.employee_no, ts.employee_name, ts.charge_item_name \n" + 
+				"from AuditTaskImpl ti inner join TaskVariableImpl tv \n" + 
+				"on (ti.taskId = tv.taskId) inner join ( \n" + 
+				"select taskid, processId, max(id) as max_id from TaskVariableImpl \n" + 
+				"group by taskid, processId) v \n" + 
+				"on (v.max_id = tv.id and v.taskId = tv.taskId and v.processId=tv.processId) \n" +
+				"inner join timesheet ts on (ts.id = (SUBSTRING_INDEX(SUBSTRING_INDEX(tv.value, ',', 1), '=', -1))) \n")
 			.source("java:jboss/datasources/jbpmDS")
 			.target("TASK").build();
 		
 		QueryFilterSpec filterSpec = new QueryFilterSpecBuilder()
-				.equalsTo("status", "Ready")
-				.equalsTo("employee_no", "c7888")
+				.equalsTo("id", "23")
+//				.equalsTo("status", "Ready")
+//				.equalsTo("employee_no", "c7888")
 				.addColumnMapping("t_id", "integer")
 				.addColumnMapping("employee_no", "string")
 				.addColumnMapping("employee_name", "string")

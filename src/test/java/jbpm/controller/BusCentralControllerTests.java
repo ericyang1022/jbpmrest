@@ -41,7 +41,8 @@ public class BusCentralControllerTests {
     public void getProcessFormURL() throws Exception {
 //        mockMvc.perform(get("/jbpm/process/instances")).andExpect(status().isOk())
     	MvcResult result = mockMvc.perform(MockMvcRequestBuilders
-    	         .get("/jbpm/process/startform")
+    	         .get("/rest/{deploymentUnitID}/process/{processID}/startform",
+    	        		 "npou:npproj42:1.0", "npproj42.SaveTimesheet")
     	         .param("userName", "eric")
     	         .accept(MediaType.APPLICATION_JSON))
     		.andDo(MockMvcResultHandlers.print())
